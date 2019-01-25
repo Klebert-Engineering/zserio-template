@@ -2,19 +2,12 @@ package ext;
 
 import host.*;
 
-//instance Map<Pair> RoutingMap;
+//instance Map<Type, ValueChoice> RoutingMap;
 
-/*
-struct Pair
-{
-  Type t;
-  Value v;
-};
-*/
 
 struct Ext
 {
-  /*template://  Map<T,V>(Type, Value) map1 */ Map map;
+  /*RoutingMap */ Map map;
 
 };
 /*
