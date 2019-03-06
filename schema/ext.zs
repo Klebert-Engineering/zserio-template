@@ -1,31 +1,21 @@
 package ext;
-
 import host.*;
-
-//instance Map<Type, ValueChoice> RoutingMap;
-
 
 struct Ext
 {
-  /*RoutingMap */ Map map;
-
+  Map<ext.Type,ext.ValueChoice> map;
 };
-/*
+
 struct Ext2
 {
-  Map<Type,Value> map3;
-};*/
+    ext.Type type;
+    ext.ValueChoice(type) value;
+};
 
 enum uint8 Type
 {
   FOO,
   BAR,
-};
-
-struct Value
-{
-  string someString;
-  uint8 someNumber;
 };
 
 choice ValueChoice(Type t) on t

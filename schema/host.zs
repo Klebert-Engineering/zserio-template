@@ -1,22 +1,11 @@
 package host;
 
-
-struct Map
+struct Map<T, V>
 {
   Header header;
-
-  uint8 type;
-  Value(type) val;
+  <T> type;
+  <V>(type) value;
 };
-
-/*
-template Map<T, V>
-{
-  Header header;
-  T type;
-  V(T) value;
-};
-*/
 
 struct Header
 {
@@ -33,12 +22,3 @@ choice Value(uint8 type) on type
     uint8 small;
 };
 
-/*
-template Map<T, V>
-{
-  int8 num;
-
-  T type;
-  V value;
-};
-*/
