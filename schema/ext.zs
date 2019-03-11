@@ -6,12 +6,6 @@ struct Ext
   Map<ext.Type,ext.ValueChoice> map;
 };
 
-struct Ext2
-{
-    ext.Type type;
-    ext.ValueChoice(type) value;
-};
-
 enum uint8 Type
 {
   FOO,

@@ -13,12 +13,3 @@ struct Header
   string someStuff = "Blabla";
   uint32 evenMoreNumbers = 0;
 };
-
-choice Value(uint8 type) on type
-{
-  case 0:
-    uint16 value;
-  case 1:
-    uint8 small;
-};
-
