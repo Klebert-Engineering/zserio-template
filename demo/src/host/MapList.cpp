@@ -17,27 +17,29 @@ namespace host
 namespace
 {
 
+template <class T, class V>
 class _elementFactory_MapList_maps
 {
 public:
-    explicit _elementFactory_MapList_maps(MapList& owner) : m_owner(owner) {}
+    explicit _elementFactory_MapList_maps(MapList<T,V>& owner) : m_owner(owner) {}
 
     void create(void* storage, zserio::BitStreamReader& _in, size_t _index)
     {
         (void)_index;
-        new (storage) host::Map(_in);
+        new (storage) host::Map<T,V>(_in);
     }
 
 private:
-    MapList& m_owner;
+    MapList<T,V>& m_owner;
 };
 
+template <class T, class V>
 class _elementChildrenInitializer_MapList_maps
 {
 public:
     _elementChildrenInitializer_MapList_maps() {}
 
-    void initialize(host::Map& element, size_t)
+    void initialize(host::Map<T,V>& element, size_t)
     {
         element.initializeChildren();
     }
@@ -59,23 +61,23 @@ MapList<T,V>::MapList(zserio::BitStreamReader& _in)
 template <class T,class V>
 void MapList<T,V>::initializeChildren()
 {
-    m_maps.initializeElements(_elementChildrenInitializer_MapList_maps());
+    m_maps.initializeElements(_elementChildrenInitializer_MapList_maps<T,V>());
 }
 
 template <class T,class V>
-zserio::ObjectArray<host::Map><T, V>& MapList<T,V>::getMaps()
+zserio::ObjectArray<host::Map<T, V>>& MapList<T,V>::getMaps()
 {
     return m_maps;
 }
 
 template <class T,class V>
-const zserio::ObjectArray<host::Map><T, V>& MapList<T,V>::getMaps() const
+const zserio::ObjectArray<host::Map<T, V>>& MapList<T,V>::getMaps() const
 {
     return m_maps;
 }
 
 template <class T,class V>
-void MapList<T,V>::setMaps(const zserio::ObjectArray<host::Map><T, V>& maps)
+void MapList<T,V>::setMaps(const zserio::ObjectArray<host::Map<T, V>>& maps)
 {
     m_maps = maps;
 }
@@ -125,7 +127,7 @@ int MapList<T,V>::hashCode() const
 template <class T,class V>
 void MapList<T,V>::read(zserio::BitStreamReader& _in)
 {
-    m_maps.read(_in, zserio::AutoLength(), _elementFactory_MapList_maps(*this));
+    m_maps.read(_in, zserio::AutoLength(), _elementFactory_MapList_maps<T,V>(*this));
 }
 
 template <class T,class V>

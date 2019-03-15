@@ -25,8 +25,8 @@ public:
     Map();
     explicit Map(zserio::BitStreamReader& _in);
 
-    Map(const Map& _other);
-   Map<T,V>& operator=(const Map<T,V>& _other);
+    Map(const Map<T,V>& _other);
+    Map<T,V>& operator=(const Map<T,V>& _other);
 
     void initializeChildren();
 
