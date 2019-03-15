@@ -27,9 +27,9 @@ public:
 
     void initializeChildren();
 
-    zserio::ObjectArray<host::Map<T, V>>& getMaps();
-    const zserio::ObjectArray<host::Map<T, V>>& getMaps() const;
-    void setMaps(const zserio::ObjectArray<host::Map<T, V>>& maps);
+    zserio::ObjectArray<host::Map<T,V> >& getMaps();
+    const zserio::ObjectArray<host::Map<T,V> >& getMaps() const;
+    void setMaps(const zserio::ObjectArray<host::Map<T,V> >& maps);
 
     size_t bitSizeOf(size_t _bitPosition = 0) const;
     size_t initializeOffsets(size_t _bitPosition);
@@ -43,7 +43,7 @@ public:
 
 private:
 
-    zserio::ObjectArray<host::Map<T, V>> m_maps;
+    zserio::ObjectArray<host::Map<T,V> > m_maps;
 };
 
 } // namespace host

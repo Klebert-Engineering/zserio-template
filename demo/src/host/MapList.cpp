@@ -17,7 +17,8 @@ namespace host
 namespace
 {
 
-template <class T, class V>
+
+template <class T,class V>
 class _elementFactory_MapList_maps
 {
 public:
@@ -33,7 +34,7 @@ private:
     MapList<T,V>& m_owner;
 };
 
-template <class T, class V>
+template <class T,class V>
 class _elementChildrenInitializer_MapList_maps
 {
 public:
@@ -65,19 +66,19 @@ void MapList<T,V>::initializeChildren()
 }
 
 template <class T,class V>
-zserio::ObjectArray<host::Map<T, V>>& MapList<T,V>::getMaps()
+zserio::ObjectArray<host::Map<T,V> >& MapList<T,V>::getMaps()
 {
     return m_maps;
 }
 
 template <class T,class V>
-const zserio::ObjectArray<host::Map<T, V>>& MapList<T,V>::getMaps() const
+const zserio::ObjectArray<host::Map<T,V> >& MapList<T,V>::getMaps() const
 {
     return m_maps;
 }
 
 template <class T,class V>
-void MapList<T,V>::setMaps(const zserio::ObjectArray<host::Map<T, V>>& maps)
+void MapList<T,V>::setMaps(const zserio::ObjectArray<host::Map<T,V> >& maps)
 {
     m_maps = maps;
 }

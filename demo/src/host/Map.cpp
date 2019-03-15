@@ -34,7 +34,7 @@ Map<T,V>::Map(zserio::BitStreamReader& _in) :
 }
 
 template <class T,class V>
-Map<T,V>::Map(const Map<T,V>& _other) :
+Map<T,V>::Map(const Map& _other) :
         m_header(_other.m_header),
         m_type(_other.m_type),
         m_value(_other.m_value)
