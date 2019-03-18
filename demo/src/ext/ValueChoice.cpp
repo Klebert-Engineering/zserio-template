@@ -59,6 +59,7 @@ void ValueChoice::initialize(
     m_isInitialized = true;
 }
 
+
 ext::Type ValueChoice::getT() const
 {
     if (!m_isInitialized)
