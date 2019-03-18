@@ -24,6 +24,8 @@ Ext::Ext() :
     m_number = uint8_t();
     m_mapList2.reset(new (m_mapList2.getResetStorage())
             host::MapListParams<ext::Type, ext::ValueChoice>());
+    m_mapcontainer.reset(new (m_mapcontainer.getResetStorage())
+            host::MapContainer<ext::Type, ext::ValueChoice>());
 }
 
 
@@ -37,7 +39,8 @@ Ext::Ext(zserio::BitStreamReader& _in) :
 Ext::Ext(const Ext& _other) :
         m_mapList(_other.m_mapList),
         m_number(_other.m_number),
-        m_mapList2(_other.m_mapList2)
+        m_mapList2(_other.m_mapList2),
+        m_mapcontainer(_other.m_mapcontainer)
 {
     if (_other.m_areChildrenInitialized)
         initializeChildren();
@@ -51,6 +54,7 @@ Ext& Ext::operator=(const Ext& _other)
     m_mapList = _other.m_mapList;
     m_number = _other.m_number;
     m_mapList2 = _other.m_mapList2;
+    m_mapcontainer = _other.m_mapcontainer;
     if (_other.m_areChildrenInitialized)
         initializeChildren();
     else
@@ -64,6 +68,7 @@ void Ext::initializeChildren()
 {
     m_mapList.get().initializeChildren();
     m_mapList2.get().initialize(getNumber());
+    m_mapcontainer.get().initializeChildren();
 
     m_areChildrenInitialized = true;
 }
@@ -117,6 +122,24 @@ void Ext::setMapList2(const host::MapListParams<ext::Type, ext::ValueChoice>& ma
 }
 
 
+host::MapContainer<ext::Type, ext::ValueChoice>& Ext::getMapcontainer()
+{
+    return m_mapcontainer.get();
+}
+
+
+const host::MapContainer<ext::Type, ext::ValueChoice>& Ext::getMapcontainer() const
+{
+    return m_mapcontainer.get();
+}
+
+
+void Ext::setMapcontainer(const host::MapContainer<ext::Type, ext::ValueChoice>& mapcontainer)
+{
+    m_mapcontainer.set(mapcontainer);
+}
+
+
 size_t Ext::bitSizeOf(size_t _bitPosition) const
 {
     size_t _endBitPosition = _bitPosition;
@@ -124,6 +147,7 @@ size_t Ext::bitSizeOf(size_t _bitPosition) const
     _endBitPosition += m_mapList.get().bitSizeOf(_endBitPosition);
     _endBitPosition += UINT8_C(8);
     _endBitPosition += m_mapList2.get().bitSizeOf(_endBitPosition);
+    _endBitPosition += m_mapcontainer.get().bitSizeOf(_endBitPosition);
 
     return _endBitPosition - _bitPosition;
 }
@@ -136,6 +160,7 @@ size_t Ext::initializeOffsets(size_t _bitPosition)
     _endBitPosition = m_mapList.get().initializeOffsets(_endBitPosition);
     _endBitPosition += UINT8_C(8);
     _endBitPosition = m_mapList2.get().initializeOffsets(_endBitPosition);
+    _endBitPosition = m_mapcontainer.get().initializeOffsets(_endBitPosition);
 
     return _endBitPosition;
 }
@@ -148,7 +173,8 @@ bool Ext::operator==(const Ext& _other) const
         return
                 (m_mapList == _other.m_mapList) &&
                 (m_number == _other.m_number) &&
-                (m_mapList2 == _other.m_mapList2);
+                (m_mapList2 == _other.m_mapList2) &&
+                (m_mapcontainer == _other.m_mapcontainer);
     }
 
     return true;
@@ -162,6 +188,7 @@ int Ext::hashCode() const
         _result = zserio::calcHashCode(_result, m_mapList);
         _result = zserio::calcHashCode(_result, m_number);
         _result = zserio::calcHashCode(_result, m_mapList2);
+        _result = zserio::calcHashCode(_result, m_mapcontainer);
 
     return _result;
 }
@@ -174,6 +201,8 @@ void Ext::read(zserio::BitStreamReader& _in)
     m_number = (uint8_t)_in.readBits(UINT8_C(8));
     m_mapList2.reset(new (m_mapList2.getResetStorage())
             host::MapListParams<ext::Type, ext::ValueChoice>(_in, getNumber()));
+    m_mapcontainer.reset(new (m_mapcontainer.getResetStorage())
+            host::MapContainer<ext::Type, ext::ValueChoice>(_in));
 }
 
 
@@ -185,6 +214,7 @@ void Ext::write(zserio::BitStreamWriter& _out, zserio::PreWriteAction _preWriteA
     m_mapList.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
     _out.writeBits(m_number, UINT8_C(8));
     m_mapList2.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
+    m_mapcontainer.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
 }
 
 } // namespace ext

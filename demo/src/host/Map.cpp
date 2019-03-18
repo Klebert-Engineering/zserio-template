@@ -62,7 +62,7 @@ Map<T,V>& Map<T,V>::operator=(const Map<T,V>& _other)
 template <class T,class V>
 void Map<T,V>::initializeChildren()
 {
-    m_value.get().initialize(m_type.get());
+    m_value.get().initialize(getType());
 
     m_areChildrenInitialized = true;
 }
@@ -179,7 +179,7 @@ void Map<T,V>::read(zserio::BitStreamReader& _in)
     m_type.reset(new (m_type.getResetStorage())
             T(_in));
     m_value.reset(new (m_value.getResetStorage())
-            V(_in, m_type.get()));
+            V(_in, getType()));
 }
 
 template <class T,class V>

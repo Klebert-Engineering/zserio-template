@@ -17,6 +17,7 @@
 
 #include "ext/Type.h"
 #include "ext/ValueChoice.h"
+#include "host/MapContainer.h"
 #include "host/MapList.h"
 #include "host/MapListParams.h"
 
@@ -45,6 +46,10 @@ public:
     const host::MapListParams<ext::Type, ext::ValueChoice>& getMapList2() const;
     void setMapList2(const host::MapListParams<ext::Type, ext::ValueChoice>& mapList2);
 
+    host::MapContainer<ext::Type, ext::ValueChoice>& getMapcontainer();
+    const host::MapContainer<ext::Type, ext::ValueChoice>& getMapcontainer() const;
+    void setMapcontainer(const host::MapContainer<ext::Type, ext::ValueChoice>& mapcontainer);
+
     size_t bitSizeOf(size_t _bitPosition = 0) const;
     size_t initializeOffsets(size_t _bitPosition);
 
@@ -63,6 +68,8 @@ private:
     uint8_t m_number;
 
     zserio::InPlaceOptionalHolder<host::MapListParams<ext::Type, ext::ValueChoice>> m_mapList2;
+
+    zserio::InPlaceOptionalHolder<host::MapContainer<ext::Type, ext::ValueChoice>> m_mapcontainer;
 };
 
 } // namespace ext
