@@ -101,7 +101,8 @@ void MapListParams<T,V>::initializeChildren()
     m_maps.initializeElements(_elementChildrenInitializer_MapListParams_maps<T,V>());
 }
 
-uint8_t MapListParams::getNum() const
+template <class T,class V>
+uint8_t MapListParams<T,V>::getNum() const
 {
     if (!m_isInitialized)
         throw zserio::CppRuntimeException("Parameter num of compound MapListParams "
