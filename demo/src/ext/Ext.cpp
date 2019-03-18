@@ -16,22 +16,56 @@ namespace ext
 {
 
 
-Ext::Ext()
+Ext::Ext() :
+        m_areChildrenInitialized(false)
 {
     m_mapList.reset(new (m_mapList.getResetStorage())
             host::MapList<ext::Type, ext::ValueChoice>());
+    m_number = uint8_t();
+    m_mapList2.reset(new (m_mapList2.getResetStorage())
+            host::MapListParams<ext::Type, ext::ValueChoice>());
 }
 
 
-Ext::Ext(zserio::BitStreamReader& _in)
+Ext::Ext(zserio::BitStreamReader& _in) :
+        m_areChildrenInitialized(true)
 {
     read(_in);
+}
+
+
+Ext::Ext(const Ext& _other) :
+        m_mapList(_other.m_mapList),
+        m_number(_other.m_number),
+        m_mapList2(_other.m_mapList2)
+{
+    if (_other.m_areChildrenInitialized)
+        initializeChildren();
+    else
+        m_areChildrenInitialized = false;
+}
+
+
+Ext& Ext::operator=(const Ext& _other)
+{
+    m_mapList = _other.m_mapList;
+    m_number = _other.m_number;
+    m_mapList2 = _other.m_mapList2;
+    if (_other.m_areChildrenInitialized)
+        initializeChildren();
+    else
+        m_areChildrenInitialized = false;
+
+    return *this;
 }
 
 
 void Ext::initializeChildren()
 {
     m_mapList.get().initializeChildren();
+    m_mapList2.get().initialize(getNumber());
+
+    m_areChildrenInitialized = true;
 }
 
 
@@ -53,11 +87,43 @@ void Ext::setMapList(const host::MapList<ext::Type, ext::ValueChoice>& mapList)
 }
 
 
+uint8_t Ext::getNumber() const
+{
+    return m_number;
+}
+
+
+void Ext::setNumber(uint8_t number)
+{
+    m_number = number;
+}
+
+
+host::MapListParams<ext::Type, ext::ValueChoice>& Ext::getMapList2()
+{
+    return m_mapList2.get();
+}
+
+
+const host::MapListParams<ext::Type, ext::ValueChoice>& Ext::getMapList2() const
+{
+    return m_mapList2.get();
+}
+
+
+void Ext::setMapList2(const host::MapListParams<ext::Type, ext::ValueChoice>& mapList2)
+{
+    m_mapList2.set(mapList2);
+}
+
+
 size_t Ext::bitSizeOf(size_t _bitPosition) const
 {
     size_t _endBitPosition = _bitPosition;
 
     _endBitPosition += m_mapList.get().bitSizeOf(_endBitPosition);
+    _endBitPosition += UINT8_C(8);
+    _endBitPosition += m_mapList2.get().bitSizeOf(_endBitPosition);
 
     return _endBitPosition - _bitPosition;
 }
@@ -68,6 +134,8 @@ size_t Ext::initializeOffsets(size_t _bitPosition)
     size_t _endBitPosition = _bitPosition;
 
     _endBitPosition = m_mapList.get().initializeOffsets(_endBitPosition);
+    _endBitPosition += UINT8_C(8);
+    _endBitPosition = m_mapList2.get().initializeOffsets(_endBitPosition);
 
     return _endBitPosition;
 }
@@ -78,7 +146,9 @@ bool Ext::operator==(const Ext& _other) const
     if (this != &_other)
     {
         return
-                (m_mapList == _other.m_mapList);
+                (m_mapList == _other.m_mapList) &&
+                (m_number == _other.m_number) &&
+                (m_mapList2 == _other.m_mapList2);
     }
 
     return true;
@@ -90,6 +160,8 @@ int Ext::hashCode() const
     int _result = zserio::HASH_SEED;
 
         _result = zserio::calcHashCode(_result, m_mapList);
+        _result = zserio::calcHashCode(_result, m_number);
+        _result = zserio::calcHashCode(_result, m_mapList2);
 
     return _result;
 }
@@ -99,6 +171,9 @@ void Ext::read(zserio::BitStreamReader& _in)
 {
     m_mapList.reset(new (m_mapList.getResetStorage())
             host::MapList<ext::Type, ext::ValueChoice>(_in));
+    m_number = (uint8_t)_in.readBits(UINT8_C(8));
+    m_mapList2.reset(new (m_mapList2.getResetStorage())
+            host::MapListParams<ext::Type, ext::ValueChoice>(_in, getNumber()));
 }
 
 
@@ -108,6 +183,8 @@ void Ext::write(zserio::BitStreamWriter& _out, zserio::PreWriteAction _preWriteA
         initializeChildren();
 
     m_mapList.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
+    _out.writeBits(m_number, UINT8_C(8));
+    m_mapList2.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
 }
 
 } // namespace ext

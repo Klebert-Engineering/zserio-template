@@ -12,6 +12,8 @@ add_executable (${PROJECT_NAME}
     src/host/Header.cpp
     src/host/Header.h
     src/host/Map.h
+	src/host/MapListParams.h
+	src/host/MapList.h
 
     src/main.cpp
 )

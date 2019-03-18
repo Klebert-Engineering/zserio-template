@@ -18,3 +18,8 @@ struct MapList<T, V>
 {
   Map<T,V>  maps[];
 };
+
+struct MapListParams<T, V>(uint8 num)
+{
+  Map<T,V> maps[num];
+};
