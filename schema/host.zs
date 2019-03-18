@@ -13,3 +13,8 @@ struct Header
   string someStuff = "Blabla";
   uint32 evenMoreNumbers = 0;
 };
+
+struct MapList<T, V>
+{
+  Map<T,V>  maps[];
+};

@@ -18,8 +18,8 @@ namespace ext
 
 Ext::Ext()
 {
-    m_map.reset(new (m_map.getResetStorage())
-            host::Map<ext::Type, ext::ValueChoice>());
+    m_mapList.reset(new (m_mapList.getResetStorage())
+            host::MapList<ext::Type, ext::ValueChoice>());
 }
 
 
@@ -31,25 +31,25 @@ Ext::Ext(zserio::BitStreamReader& _in)
 
 void Ext::initializeChildren()
 {
-    m_map.get().initializeChildren();
+    m_mapList.get().initializeChildren();
 }
 
 
-host::Map<ext::Type, ext::ValueChoice>& Ext::getMap()
+host::MapList<ext::Type, ext::ValueChoice>& Ext::getMapList()
 {
-    return m_map.get();
+    return m_mapList.get();
 }
 
 
-const host::Map<ext::Type, ext::ValueChoice>& Ext::getMap() const
+const host::MapList<ext::Type, ext::ValueChoice>& Ext::getMapList() const
 {
-    return m_map.get();
+    return m_mapList.get();
 }
 
 
-void Ext::setMap(const host::Map<ext::Type, ext::ValueChoice>& map)
+void Ext::setMapList(const host::MapList<ext::Type, ext::ValueChoice>& mapList)
 {
-    m_map.set(map);
+    m_mapList.set(mapList);
 }
 
 
@@ -57,7 +57,7 @@ size_t Ext::bitSizeOf(size_t _bitPosition) const
 {
     size_t _endBitPosition = _bitPosition;
 
-    _endBitPosition += m_map.get().bitSizeOf(_endBitPosition);
+    _endBitPosition += m_mapList.get().bitSizeOf(_endBitPosition);
 
     return _endBitPosition - _bitPosition;
 }
@@ -67,7 +67,7 @@ size_t Ext::initializeOffsets(size_t _bitPosition)
 {
     size_t _endBitPosition = _bitPosition;
 
-    _endBitPosition = m_map.get().initializeOffsets(_endBitPosition);
+    _endBitPosition = m_mapList.get().initializeOffsets(_endBitPosition);
 
     return _endBitPosition;
 }
@@ -78,7 +78,7 @@ bool Ext::operator==(const Ext& _other) const
     if (this != &_other)
     {
         return
-                (m_map == _other.m_map);
+                (m_mapList == _other.m_mapList);
     }
 
     return true;
@@ -89,7 +89,7 @@ int Ext::hashCode() const
 {
     int _result = zserio::HASH_SEED;
 
-        _result = zserio::calcHashCode(_result, m_map);
+        _result = zserio::calcHashCode(_result, m_mapList);
 
     return _result;
 }
@@ -97,8 +97,8 @@ int Ext::hashCode() const
 
 void Ext::read(zserio::BitStreamReader& _in)
 {
-    m_map.reset(new (m_map.getResetStorage())
-            host::Map<ext::Type, ext::ValueChoice>(_in));
+    m_mapList.reset(new (m_mapList.getResetStorage())
+            host::MapList<ext::Type, ext::ValueChoice>(_in));
 }
 
 
@@ -107,7 +107,7 @@ void Ext::write(zserio::BitStreamWriter& _out, zserio::PreWriteAction _preWriteA
     if ((_preWriteAction & zserio::PRE_WRITE_INITIALIZE_CHILDREN) != 0)
         initializeChildren();
 
-    m_map.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
+    m_mapList.get().write(_out, zserio::NO_PRE_WRITE_ACTION);
 }
 
 } // namespace ext

@@ -3,7 +3,8 @@ import host.*;
 
 struct Ext
 {
-  Map<ext.Type,ext.ValueChoice> map;
+  //Map<ext.Type,ext.ValueChoice> map;
+  MapList<ext.Type, ext.ValueChoice> mapList;
 };
 
 enum uint8 Type
