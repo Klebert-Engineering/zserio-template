@@ -8,6 +8,9 @@ struct Ext
 
   uint8 number;
   MapListParams(number)<ext.Type, ext.ValueChoice> mapList2;
+
+  MapContainer<ext.Type, ext.ValueChoice> mapcontainer;
+
 };
 
 enum uint8 Type
