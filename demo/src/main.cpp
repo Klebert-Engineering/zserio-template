@@ -26,6 +26,16 @@ int main()
     maplist.setMaps(maps);
 	obj.setMapList(maplist);
 
+    host::MapContainer<ext::Type, ext::ValueChoice> mapcontainer;
+    mapcontainer.setType(type);
+    host::Map2<ext::Type, ext::ValueChoice> map2;
+    ext::ValueChoice choice;
+    choice.setFoo(10);
+    map2.setValue(choice);
+    mapcontainer.setSecondMap(map2);
+    obj.setMapcontainer(mapcontainer);
+    obj.initializeChildren();
+
 	zserio::BitStreamWriter writer;
 	obj.write(writer);
 
