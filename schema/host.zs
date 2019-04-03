@@ -43,3 +43,9 @@ struct Map3<T,V>(uint8 num)
 header.offset[@index]:
   MapListParams(count)<T,V> maps[num];
 };
+
+struct Map4<T>(uint8 num)
+{
+  uint8 count;
+  <T>(num) list[count];
+};
