@@ -11,6 +11,7 @@ struct Ext
 
   MapContainer<ext.Type, ext.ValueChoice> mapcontainer;
 
+  Map3(number)<ext.Type, ext.ValueChoice> mapListOffsets;
 };
 
 enum uint8 Type
