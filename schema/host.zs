@@ -38,8 +38,8 @@ struct Map2<T, V>(<T> type)
 
 struct Map3<T,V>(uint8 num)
 {
+  uint32 count;
   Header(num) header;
-  <T> type;
 header.offset[@index]:
-  Map2(type)<T,V> maps[num];
+  MapListParams(count)<T,V> maps[num];
 };
